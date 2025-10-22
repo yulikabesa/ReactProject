@@ -1,0 +1,142 @@
+import classes from "./AddRecipe.module.css";
+import { useState } from "react";
+import Card from "../UI/Card";
+import Button from "../UI/Button.js";
+import DynamicInput from "../UI/DynamicInput.js";
+import ErrorModal from "../UI/ErrorModal.js";
+
+const AddRecipe = (props) => {
+  const [enteredName, setEnteredname] = useState("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+  const [enteredIngredients, setEnteredIngredients] = useState([
+    {
+      id: Math.random().toString(),
+      value: "",
+    },
+  ]);
+
+  const [enteredInstructions, setEnteredInstructions] = useState([
+    {
+      id: Math.random().toString(),
+      value: "",
+    },
+  ]);
+  const [error, setError] = useState();
+
+  const nameChangeHandler = (event) => {
+    setEnteredname(event.target.value);
+  };
+
+  // submiting
+  const AddRecipeHandler = (event) => {
+    event.preventDefault(); 
+    if (
+      enteredName.length === 0 ||
+      imagePreviewUrl === null ||
+      !imagePreviewUrl.type.startsWith("image/") ||
+      enteredIngredients[0].value === "" ||
+      enteredInstructions[0].value === ""
+    ) {
+      setError({
+        title: "fields cannot be empty",
+        message:
+          "Please enter a valid name, ingredients and instructions (non-empty values).",
+      });
+      return;
+    }
+    props.onAddRecipe(
+      enteredName,
+      enteredIngredients.slice(0, -1),
+      enteredInstructions.slice(0, -1),
+      imagePreviewUrl
+    );
+    setEnteredname("");
+    setEnteredIngredients([
+      {
+        id: Math.random().toString(),
+        value: "",
+      },
+    ]);
+    setEnteredInstructions([
+      {
+        id: Math.random().toString(),
+        value: "",
+      },
+    ]);
+    setImagePreviewUrl(null);
+    event.target.reset();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImagePreviewUrl(file);
+    } else {
+      setImagePreviewUrl(null);
+    }
+  };
+
+  const errorHandler = () => {
+    setError(null);
+  };
+
+  return (
+    <div>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
+      <Card className={classes.input}>
+        <div className={classes.title}>Add Recipe</div>
+        <form onSubmit={AddRecipeHandler} autoComplete="off">
+          <label htmlFor="name">name</label>
+          <input
+            id="name"
+            value={enteredName}
+            type="text"
+            onChange={nameChangeHandler}
+          />
+          <label>
+            ingredients
+            <DynamicInput
+              name="ingredient"
+              inputField={enteredIngredients}
+              setInputField={setEnteredIngredients}
+            />
+          </label>
+
+          <label>
+            instruction
+            <DynamicInput
+              name="instruction"
+              inputField={enteredInstructions}
+              setInputField={setEnteredInstructions}
+            />
+          </label>
+
+          <label htmlFor="imageUpload">image</label>
+          <input
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+          {imagePreviewUrl && (
+            <img
+              id="imagePreview"
+              className={classes.selectedImg}
+              src={URL.createObjectURL(imagePreviewUrl)}
+            ></img>
+          )}
+
+          <Button type="submit">Add Recipe</Button>
+        </form>
+      </Card>
+    </div>
+  );
+};
+
+export default AddRecipe;
