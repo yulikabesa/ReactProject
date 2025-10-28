@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AddRecipe from "./components/Recipes/AddRecipe";
 import RecipeList from "./components/Recipes/RecipesList";
+import classes from "./App.module.css"
 
 const App = () => {
   const [recipesList, setRecipesList] = useState([]);
