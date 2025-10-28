@@ -29,7 +29,7 @@ const AddRecipe = (props) => {
 
   // submiting
   const AddRecipeHandler = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     if (
       enteredName.length === 0 ||
       imagePreviewUrl === null ||
@@ -126,6 +126,7 @@ const AddRecipe = (props) => {
           />
           {imagePreviewUrl && (
             <img
+              alt="image not found"
               id="imagePreview"
               className={classes.selectedImg}
               src={URL.createObjectURL(imagePreviewUrl)}

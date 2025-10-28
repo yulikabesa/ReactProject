@@ -15,7 +15,7 @@ const DynamicInput = (props) => {
 
   // remove the new field if empty
   const handleBlur = (index, event) => {
-    if (event.target.value.length === 0 && index !== 0) {
+    if (event.target.value.trim() === "" && index !== +props.inputField.length -1 ) {
       const newFields = [...props.inputField];
       newFields.splice(index, 1);
       props.setInputField(newFields);
