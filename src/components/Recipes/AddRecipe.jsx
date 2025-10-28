@@ -1,9 +1,9 @@
 import classes from "./AddRecipe.module.css";
 import { useState } from "react";
-import Card from "../UI/Card";
-import Button from "../UI/Button.js";
-import DynamicInput from "../UI/DynamicInput.js";
-import ErrorModal from "../UI/ErrorModal.js";
+import Card from "../UI/Card.jsx";
+import Button from "../UI/Button.jsx";
+import DynamicInput from "../UI/DynamicInput.jsx";
+import ErrorModal from "../UI/ErrorModal.jsx";
 
 const AddRecipe = (props) => {
   const [enteredName, setEnteredname] = useState("");
