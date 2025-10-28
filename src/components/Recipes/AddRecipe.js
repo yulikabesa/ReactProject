@@ -33,7 +33,6 @@ const AddRecipe = (props) => {
     if (
       enteredName.length === 0 ||
       imagePreviewUrl === null ||
-      !imagePreviewUrl.type.startsWith("image/") ||
       enteredIngredients[0].value === "" ||
       enteredInstructions[0].value === ""
     ) {
@@ -41,6 +40,14 @@ const AddRecipe = (props) => {
         title: "fields cannot be empty",
         message:
           "Please enter a valid name, ingredients and instructions (non-empty values).",
+      });
+      return;
+    }
+    if (!imagePreviewUrl.type.startsWith("image/") ){
+      setError({
+        title: "image must be an image file",
+        message:
+          "Please choose an image file.",
       });
       return;
     }
