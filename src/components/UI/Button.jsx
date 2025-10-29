@@ -1,9 +1,10 @@
 import classes from "./Button.module.css";
 
 const Button = (props) => {
+  const btnClass = `${classes.button} ${props.className}`;
   return (
     <button
-      className={classes.button}
+      className={btnClass}
       type={props.type || "button"}
       onClick={props.onClick}
     >

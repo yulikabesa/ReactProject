@@ -29,7 +29,7 @@ const AddRecipe = (props) => {
       setError({
         title: "fields cannot be empty",
         message:
-          "Please enter a valid name, ingredients and instructions (non-empty values).",
+          "Please enter a valid name, ingredients, instructions and image.",
       });
       return;
     }

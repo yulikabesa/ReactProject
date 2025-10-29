@@ -1,0 +1,51 @@
+.users {
+  height: 100%;
+}
+
+.ul {
+  list-style: none;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 70rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+li {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  width: 40%;
+}
+
+.title {
+  margin: 0.5rem 0;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+.selectedImg {
+  margin-top: 1rem auto;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+}
+
+.name {
+  color: pink;
+  font-weight: bolder;
+  text-decoration: underline;
+  font-size: larger;
+  text-align: center;
+  padding-top: 1rem;
+  text-decoration-style: solid;
+}
+
+.title {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
