@@ -1,6 +1,4 @@
 import classes from "./RecipesList.module.css";
-import Card from "../UI/Card";
-import List from "./List";
 import Recipe from "./Recipe";
 
 const RecipeList = (props) => {

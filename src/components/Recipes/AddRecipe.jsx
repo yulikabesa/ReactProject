@@ -33,11 +33,10 @@ const AddRecipe = (props) => {
       });
       return;
     }
-    if (!imagePreviewUrl.type.startsWith("image/") ){
+    if (!imagePreviewUrl.type.startsWith("image/")) {
       setError({
         title: "image must be an image file",
-        message:
-          "Please choose an image file.",
+        message: "Please choose an image file.",
       });
       return;
     }
@@ -86,24 +85,17 @@ const AddRecipe = (props) => {
             type="text"
             onChange={nameChangeHandler}
           />
-          <label>
-            ingredients
-            <DynamicInput
-              name="ingredient"
-              inputField={enteredIngredients}
-              setInputField={setEnteredIngredients}
-            />
-          </label>
+          <DynamicInput
+            name="ingredient"
+            inputField={enteredIngredients}
+            setInputField={setEnteredIngredients}
+          />
 
-          <label>
-            instruction
-            <DynamicInput
-              name="instruction"
-              inputField={enteredInstructions}
-              setInputField={setEnteredInstructions}
-            />
-          </label>
-
+          <DynamicInput
+            name="instruction"
+            inputField={enteredInstructions}
+            setInputField={setEnteredInstructions}
+          />
           <label htmlFor="imageUpload">image</label>
           <input
             type="file"
@@ -119,7 +111,6 @@ const AddRecipe = (props) => {
               src={URL.createObjectURL(imagePreviewUrl)}
             />
           )}
-
           <Button type="submit">Add Recipe</Button>
         </form>
       </Card>
