@@ -5,11 +5,11 @@ const DynamicInput = (props) => {
   // Handle changes in an individual input field
   const handleChange = (index, event) => {
     const newFields = [...props.inputField];
-    newFields[index].value = event.target.value;
+    newFields[index] = event.target.value;
     props.setInputField(newFields);
     // Add a new input field
     if (event.target.value.trim().length === 1 && +event.target.id.slice(-1) === props.inputField.length) {
-      props.setInputField([...props.inputField, { value: "", id : Math.random().toString() }]);
+      props.setInputField([...newFields, ""]);
     }
   };
 

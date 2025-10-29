@@ -1,26 +1,16 @@
 import classes from "./AddRecipe.module.css";
 import { useState } from "react";
-import Card from "../UI/Card.jsx";
-import Button from "../UI/Button.jsx";
-import DynamicInput from "../UI/DynamicInput.jsx";
-import ErrorModal from "../UI/ErrorModal.jsx";
+import Card from "../UI/Card";
+import Button from "../UI/Button";
+import DynamicInput from "../UI/DynamicInput";
+import ErrorModal from "../UI/ErrorModal";
 
 const AddRecipe = (props) => {
   const [enteredName, setEnteredname] = useState("");
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-  const [enteredIngredients, setEnteredIngredients] = useState([
-    {
-      id: Math.random().toString(),
-      value: "",
-    },
-  ]);
+  const [enteredIngredients, setEnteredIngredients] = useState([""]);
 
-  const [enteredInstructions, setEnteredInstructions] = useState([
-    {
-      id: Math.random().toString(),
-      value: "",
-    },
-  ]);
+  const [enteredInstructions, setEnteredInstructions] = useState([""]);
   const [error, setError] = useState();
 
   const nameChangeHandler = (event) => {
@@ -33,8 +23,8 @@ const AddRecipe = (props) => {
     if (
       enteredName.length === 0 ||
       imagePreviewUrl === null ||
-      enteredIngredients[0].value === "" ||
-      enteredInstructions[0].value === ""
+      enteredIngredients[0] === "" ||
+      enteredInstructions[0] === ""
     ) {
       setError({
         title: "fields cannot be empty",
@@ -58,18 +48,8 @@ const AddRecipe = (props) => {
       imagePreviewUrl
     );
     setEnteredname("");
-    setEnteredIngredients([
-      {
-        id: Math.random().toString(),
-        value: "",
-      },
-    ]);
-    setEnteredInstructions([
-      {
-        id: Math.random().toString(),
-        value: "",
-      },
-    ]);
+    setEnteredIngredients([""]);
+    setEnteredInstructions([""]);
     setImagePreviewUrl(null);
     event.target.reset();
   };
