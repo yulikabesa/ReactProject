@@ -18,7 +18,7 @@ const AddRecipe = (props) => {
   };
 
   // submiting
-  const AddRecipeHandler = (event) => {
+  const addRecipeHandler = (event) => {
     event.preventDefault();
     if (
       enteredName.length === 0 ||
@@ -78,7 +78,7 @@ const AddRecipe = (props) => {
       )}
       <Card className={classes.input}>
         <div className={classes.title}>Add Recipe</div>
-        <form onSubmit={AddRecipeHandler} autoComplete="off">
+        <form onSubmit={addRecipeHandler} autoComplete="off">
           <label htmlFor="name">name</label>
           <input
             id="name"
@@ -117,7 +117,7 @@ const AddRecipe = (props) => {
               id="imagePreview"
               className={classes.selectedImg}
               src={URL.createObjectURL(imagePreviewUrl)}
-            ></img>
+            />
           )}
 
           <Button type="submit">Add Recipe</Button>

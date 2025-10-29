@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const DynamicInput = (props) => {
 
   // Handle changes in an individual input field

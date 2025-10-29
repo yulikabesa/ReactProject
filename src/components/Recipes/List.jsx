@@ -1,4 +1,4 @@
-const InputList = (props) => {
+const List = (props) => {
   return (
     <div>
       <ul>
@@ -10,4 +10,4 @@ const InputList = (props) => {
   );
 };
 
-export default InputList;
+export default List;
