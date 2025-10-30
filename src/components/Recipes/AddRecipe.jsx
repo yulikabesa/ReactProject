@@ -1,17 +1,20 @@
 import classes from "./AddRecipe.module.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import DynamicInput from "../UI/DynamicInput";
 import ErrorModal from "../UI/ErrorModal";
+import RecipeContext from "../../store/recipe-context";
 
-const AddRecipe = (props) => {
+const AddRecipe = () => {
   const [enteredName, setEnteredname] = useState("");
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [enteredIngredients, setEnteredIngredients] = useState([""]);
 
   const [enteredInstructions, setEnteredInstructions] = useState([""]);
   const [error, setError] = useState();
+
+  const recipesCtx = useContext(RecipeContext);
 
   const nameChangeHandler = (event) => {
     setEnteredname(event.target.value);
@@ -40,12 +43,13 @@ const AddRecipe = (props) => {
       });
       return;
     }
-    props.onAddRecipe(
-      enteredName,
-      enteredIngredients.slice(0, -1),
-      enteredInstructions.slice(0, -1),
-      imagePreviewUrl
-    );
+    recipesCtx.addRecipe({
+      name: enteredName,
+      ingredients: enteredIngredients.slice(0, -1),
+      instructions: enteredInstructions.slice(0, -1),
+      picture: imagePreviewUrl
+    });
+    
     setEnteredname("");
     setEnteredIngredients([""]);
     setEnteredInstructions([""]);

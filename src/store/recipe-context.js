@@ -1,8 +1,8 @@
 import React from "react";
 
 const RecipeContext = React.createContext({
-    recipesList: [],
-    addItem: (item) => {}
+    recipes: [],
+    addRecipe: (recipe) => {}
 });
 
 export default RecipeContext;
