@@ -5,52 +5,67 @@ import Button from "../UI/Button";
 import DynamicInput from "../UI/DynamicInput";
 import ErrorModal from "../UI/ErrorModal";
 import RecipeContext from "../../store/recipe-context";
+import useInput from "../../hooks/use-input";
 
-const AddRecipe = () => {
-  const [enteredName, setEnteredname] = useState("");
+const AddRecipe = (props) => {
+  const {
+    value: enteredName,
+    isValid: enteredNameIsValid,
+    hasError: nameInputHasError,
+    valueChangeHandler: nameChangeHandler,
+    inputBlurHandler: nameBlurHandler,
+    reset: resetNameInput,
+  } = useInput((value) => value.trim() !== "");
+
+
+  // const [enteredName, setEnteredname] = useState("");
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [enteredIngredients, setEnteredIngredients] = useState([""]);
 
   const [enteredInstructions, setEnteredInstructions] = useState([""]);
   const [error, setError] = useState();
 
+  let formIsValid = false;
+
+  if (enteredNameIsValid) {
+    formIsValid = true;
+  }
+
   const recipesCtx = useContext(RecipeContext);
 
-  const nameChangeHandler = (event) => {
-    setEnteredname(event.target.value);
-  };
+  // const nameChangeHandler = (event) => {
+  //   setEnteredname(event.target.value);
+  // };
 
   // submiting
   const addRecipeHandler = (event) => {
     event.preventDefault();
-    if (
-      enteredName.length === 0 ||
-      imagePreviewUrl === null ||
-      enteredIngredients[0] === "" ||
-      enteredInstructions[0] === ""
-    ) {
-      setError({
-        title: "fields cannot be empty",
-        message:
-          "Please enter a valid name, ingredients, instructions and image.",
-      });
+
+    if (!formIsValid) {
       return;
     }
-    if (!imagePreviewUrl.type.startsWith("image/")) {
-      setError({
-        title: "image must be an image file",
-        message: "Please choose an image file.",
-      });
-      return;
-    }
+    // if (
+    //   enteredName.length === 0 ||
+    //   imagePreviewUrl === null ||
+    //   enteredIngredients[0] === "" ||
+    //   enteredInstructions[0] === ""
+    // ) {
+    //   setError({
+    //     title: "fields cannot be empty",
+    //     message:
+    //       "Please enter a valid name, ingredients, instructions and image.",
+    //   });
+    //   return;
+    // }
     recipesCtx.addRecipe({
       name: enteredName,
       ingredients: enteredIngredients.slice(0, -1),
       instructions: enteredInstructions.slice(0, -1),
-      picture: imagePreviewUrl
+      picture: imagePreviewUrl,
     });
-    
-    setEnteredname("");
+
+    resetNameInput();
+    // setEnteredname("");
     setEnteredIngredients([""]);
     setEnteredInstructions([""]);
     setImagePreviewUrl(null);
@@ -60,7 +75,9 @@ const AddRecipe = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setImagePreviewUrl(file);
+      if (file.type.startsWith("image/")) {
+        setImagePreviewUrl(URL.createObjectURL(file));
+      }
     } else {
       setImagePreviewUrl(null);
     }
@@ -70,25 +87,40 @@ const AddRecipe = () => {
     setError(null);
   };
 
+  const nameInputClasses = nameInputHasError
+    ? classes.invalid
+    : classes.valid;
+
   return (
     <div>
-      {error && (
+      {/* {error && (
         <ErrorModal
           title={error.title}
           message={error.message}
           onConfirm={errorHandler}
         />
-      )}
+      )} */}
       <Card className={classes.input}>
         <div className={classes.title}>Add Recipe</div>
         <form onSubmit={addRecipeHandler} autoComplete="off">
-          <label htmlFor="name">name</label>
-          <input
-            id="name"
-            value={enteredName}
-            type="text"
-            onChange={nameChangeHandler}
-          />
+          
+          
+          <div className={nameInputClasses}>
+            <label htmlFor="name">name</label>
+            <input
+              id="name"
+              value={enteredName}
+              type="text"
+              onChange={nameChangeHandler}
+              onBlur={nameBlurHandler}
+            />
+
+            {nameInputHasError && (
+              <p className={classes['error-text']}>Please enter a valid name.</p>
+            )}
+          </div>
+
+
           <DynamicInput
             name="ingredient"
             inputField={enteredIngredients}
@@ -112,7 +144,7 @@ const AddRecipe = () => {
               alt="image not found"
               id="imagePreview"
               className={classes.selectedImg}
-              src={URL.createObjectURL(imagePreviewUrl)}
+              src={imagePreviewUrl}
             />
           )}
           <Button type="submit">Add Recipe</Button>

@@ -24,8 +24,36 @@
 
 .input input:focus {
   outline: none;
-  border-color: #4f005f;
+  border-color: #550041;
 }
+
+
+.valid input {
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.valid input:focus {
+  border-color: #000000;
+  background-color: #fffbf684;
+}
+
+.invalid input {
+  border: 1px solid #b40e0e;
+  background-color: #fddddd;
+}
+
+.invalid input:focus {
+  border-color: #ff8800;
+  background-color: #fbe8d2;
+}
+
+.error-text {
+  color: #b40e0e;
+}
+
+
+
 
 .selectedImg {
   margin: 1rem auto;

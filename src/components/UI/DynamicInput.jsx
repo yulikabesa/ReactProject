@@ -3,6 +3,7 @@ import { Fragment } from "react/jsx-runtime";
 const DynamicInput = (props) => {
   // Handle changes in an individual input field
   const handleChange = (index, event) => {
+    
     const newFields = [...props.inputField];
     newFields[index] = event.target.value;
     props.setInputField(newFields);
@@ -27,17 +28,19 @@ const DynamicInput = (props) => {
     }
   };
 
+  const style = {fontWeight: 'bold'};
+
   return (
     <Fragment>
-      <p style={{fontWeight: 'bold'}}>
-        {props.name}
+      <p style={style}>
+        {props.name + 's'}
       </p>
       <div>
         {props.inputField.map((field, index) => (
           <div key={index}>
             <input
               type="text"
-              value={field.value}
+              value={field}
               id={`${props.name} ${index + 1}`}
               placeholder={`${props.name} ${index + 1}`}
               onChange={(event) => handleChange(index, event)}
