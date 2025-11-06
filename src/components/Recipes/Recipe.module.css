@@ -17,7 +17,7 @@
 li {
   margin: 0.5rem 0;
   padding: 0.5rem;
-  width: 40%;
+  width: 30%;
 }
 
 .title {
@@ -32,20 +32,16 @@ li {
 }
 
 .editImage {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-   margin-top: 1rem auto;
+  margin-top: 1rem auto;
   width: 100%;
 }
 
 .name {
   color: black;
   font-weight: bolder;
-  text-decoration: underline;
-  font-size: larger;
+  font-size: 98%;
   text-align: center;
-  margin-left: 0.5rem;
-  text-decoration-style: solid;
+  margin: 0.5rem;
   display: inline-block;
 }
 
@@ -56,26 +52,36 @@ li {
 }
 
 .header {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
   background-color: rgba(255, 192, 203, 0.586);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  text-align: center;
 }
 
 .icon {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
   margin-top: 0.5rem;
   margin-left: 0.5rem;
-  width: 3.2vw;
+  width: 1.2rem;
+  position: absolute;
   cursor: pointer;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+.edit { 
+  margin-left: 2rem;
+}
+
 .icon:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
   opacity: 0.8;
 }
 
 .icon:active {
-  transform: scale(0.9);
+  transform: scale(0.8);
   opacity: 1;
 }
 
@@ -92,7 +98,7 @@ input {
   width: 90%;
   border: 1px solid #ccc;
   padding: 0.15rem;
-  margin: 0.5rem auto;
+  margin-top: 0.5rem;
 }
 
 input:focus {
@@ -105,4 +111,21 @@ input:focus {
   margin: 0 auto;
   margin-bottom: 1rem;
   margin-top: 1rem;
+}
+
+.info {
+  margin: 1rem;
+}
+
+
+.imgInput{
+  position: absolute;
+  width: 30%;
+}
+
+.editingError {
+  text-align: center;
+  color: rgb(225, 18, 18);
+  background-color: pink;
+  padding: 0.5rem;
 }

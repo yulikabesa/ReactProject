@@ -18,6 +18,8 @@ const EditRecipe = (props) => {
     "",
   ]);
 
+  const [isThereError, setisThereError] = useState(false);
+
   const nameChangeHandler = (event) => {
     setEnteredname(event.target.value);
   };
@@ -33,43 +35,54 @@ const EditRecipe = (props) => {
     }
   };
 
-  const onSubmitChangesHandler = () => {
+  const onButtonclickHandler = () => {
+    if (
+      enteredName.length === 0 ||
+      imagePreviewUrl === null ||
+      enteredIngredients[0] === "" ||
+      enteredInstructions[0] === ""
+    ) {
+      setisThereError(true);
+      return;
+    }
+    setisThereError(false);
     recipesCtx.editRecipe(props.recipe.id, {
       name: enteredName,
       ingredients: enteredIngredients.slice(0, -1),
       instructions: enteredInstructions.slice(0, -1),
       picture: imagePreviewUrl,
-      id: props.recipe.id
+      id: props.recipe.id,
     });
+    props.setIsEditing();
   };
 
   return (
     <Card className={classes.users}>
-      <form onSubmit={onSubmitChangesHandler}>
-        <img
-          className={classes.editImage}
-          id="imagePreview"
-          alt="recipe picture"
-          src={imagePreviewUrl}
-        />
-        <label htmlFor="imageUpload" className={classes.editLabel}>
+      <header className={classes.header}>
+        <h2 className={classes.name}>{props.recipe.name}</h2>
+      </header>
+      
+      <img
+        className={classes.editImage}
+        alt="recipe picture"
+        src={imagePreviewUrl}
+      />
+      <div className={classes.info}>
+        <p className={classes.editLabel}>
           image
-        </label>
+        </p>
         <input
           type="file"
-          id="imageUpload"
           accept="image/*"
           onChange={handleFileChange}
         />
-        <label htmlFor="name" className={classes.editLabel}>
+        <p className={classes.editLabel}>
           name
-        </label>
+        </p>
         <input
-          id="name"
           value={enteredName}
           type="text"
           onChange={nameChangeHandler}
-          style={{ color: "pink" }}
         />
         <DynamicInput
           name="ingredient"
@@ -82,10 +95,11 @@ const EditRecipe = (props) => {
           inputField={enteredInstructions}
           setInputField={setEnteredInstructions}
         />
-        <Button type="submit" className={classes.saveBtn}>
-          Save edits
-        </Button>
-      </form>
+      </div>
+      {isThereError && <p className={classes.editingError}>fields cant be empty</p>}
+      <Button onClick={onButtonclickHandler} className={classes.saveBtn}>
+        Save edits
+      </Button>
     </Card>
   );
 };

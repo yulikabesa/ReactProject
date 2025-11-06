@@ -15,11 +15,10 @@ const Recipe = (props) => {
   return (
     <Fragment>
       {isEditing ? (
-        <EditRecipe recipe={props.recipe} />
+        <EditRecipe recipe={props.recipe} setIsEditing={setIsEditing} />
       ) : (
         <Card className={classes.users}>
-          <header className={classes.header}>
-            <img
+          <img
               src={removeIcon}
               className={classes.icon}
               onClick={props.onRemove}
@@ -27,10 +26,11 @@ const Recipe = (props) => {
             />
             <img
               src={editIcon}
-              className={classes.icon}
+              className={`${classes.icon} ${classes.edit}`}
               alt="edit recipe"
               onClick={isEditingHandler}
             />
+          <header className={classes.header}>
             <h2 className={classes.name}>{props.recipe.name}</h2>
           </header>
           <img
