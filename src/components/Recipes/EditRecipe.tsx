@@ -2,13 +2,18 @@ import Card from "../UI/Card";
 import Button from "../UI/Button";
 import classes from "./Recipe.module.css";
 import DynamicInput from "../UI/DynamicInput";
-import { useState, useContext } from "react";
+import { useState, useContext, ChangeEvent } from "react";
 import RecipeContext from "../../store/recipe-context";
+import Recipe from "../../models/recipe";
 
-const EditRecipe = (props) => {
+const EditRecipe: React.FC<{ recipe: Recipe; setIsEditing: () => void }> = (
+  props
+) => {
   const recipesCtx = useContext(RecipeContext);
   const [enteredName, setEnteredname] = useState(props.recipe.name);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(props.recipe.picture);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(
+    props.recipe.picture
+  );
   const [enteredIngredients, setEnteredIngredients] = useState([
     ...props.recipe.ingredients,
     "",
@@ -20,14 +25,14 @@ const EditRecipe = (props) => {
 
   const [isThereError, setisThereError] = useState(false);
 
-  const nameChangeHandler = (event) => {
+  const nameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEnteredname(event.target.value);
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
-      if (file.type.startsWith("image/")) {
+      if (file?.type.startsWith("image/")) {
         setImagePreviewUrl(URL.createObjectURL(file));
       }
     } else {
@@ -46,13 +51,8 @@ const EditRecipe = (props) => {
       return;
     }
     setisThereError(false);
-    recipesCtx.editRecipe(props.recipe.id, {
-      name: enteredName,
-      ingredients: enteredIngredients.slice(0, -1),
-      instructions: enteredInstructions.slice(0, -1),
-      picture: imagePreviewUrl,
-      id: props.recipe.id,
-    });
+    const rec = new Recipe(enteredName, enteredIngredients.slice(0, -1), enteredInstructions.slice(0, -1), imagePreviewUrl, props.recipe.id);
+    recipesCtx.editRecipe(props.recipe.id, rec);
     props.setIsEditing();
   };
 
@@ -61,29 +61,22 @@ const EditRecipe = (props) => {
       <header className={classes.header}>
         <h2 className={classes.name}>{props.recipe.name}</h2>
       </header>
-      
-      <img
-        className={classes.editImage}
-        alt="recipe picture"
-        src={imagePreviewUrl}
-      />
+
+      {imagePreviewUrl ? (
+        <img
+          className={classes.editImage}
+          alt="recipe picture"
+          src={imagePreviewUrl}
+        />
+      ) : (
+        <p>No Image</p>
+      )}
+
       <div className={classes.info}>
-        <p className={classes.editLabel}>
-          image
-        </p>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-        <p className={classes.editLabel}>
-          name
-        </p>
-        <input
-          value={enteredName}
-          type="text"
-          onChange={nameChangeHandler}
-        />
+        <p className={classes.editLabel}>image</p>
+        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <p className={classes.editLabel}>name</p>
+        <input value={enteredName} type="text" onChange={nameChangeHandler} />
         <DynamicInput
           name="ingredient"
           inputField={enteredIngredients}
@@ -96,7 +89,9 @@ const EditRecipe = (props) => {
           setInputField={setEnteredInstructions}
         />
       </div>
-      {isThereError && <p className={classes.editingError}>fields cant be empty</p>}
+      {isThereError && (
+        <p className={classes.editingError}>fields cant be empty</p>
+      )}
       <Button onClick={onButtonclickHandler} className={classes.saveBtn}>
         Save edits
       </Button>

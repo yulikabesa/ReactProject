@@ -1,4 +1,4 @@
-const List = (props) => {
+const List: React.FC<{items: string[]}> = (props) => {
   return (
     <div>
       <ul>

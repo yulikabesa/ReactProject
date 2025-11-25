@@ -1,7 +1,7 @@
 import useRecipe from "../hooks/use-recipe";
 import RecipeContext from "./recipe-context";
 
-const RecipeProvider = (props) => {
+const RecipeProvider: React.FC<React.PropsWithChildren> = (props) => {
   const recipeContext = useRecipe();
 
   return (

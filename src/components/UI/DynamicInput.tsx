@@ -1,8 +1,9 @@
 import { Fragment } from "react/jsx-runtime";
+import { ChangeEvent, FocusEvent  } from "react";
 
-const DynamicInput = (props) => {
+const DynamicInput: React.FC<{setInputField: (values: string[]) => void ; inputField: string[] ; name: string}> = (props) => {
   // Handle changes in an individual input field
-  const handleChange = (index, event) => {
+  const handleChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
     const newFields = [...props.inputField];
     newFields[index] = event.target.value;
     props.setInputField(newFields);
@@ -16,7 +17,7 @@ const DynamicInput = (props) => {
   };
 
   // remove the new field if empty
-  const handleBlur = (index, event) => {
+  const handleBlur = (index: number, event: FocusEvent<HTMLInputElement>) => {
     if (
       event.target.value.trim() === "" &&
       index !== +props.inputField.length - 1

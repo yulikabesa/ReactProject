@@ -1,27 +1,28 @@
 import classes from "./AddRecipe.module.css";
-import { useState, useContext } from "react";
+import React ,{ useState, useContext, ChangeEvent  } from "react";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import DynamicInput from "../UI/DynamicInput";
 import ErrorModal from "../UI/ErrorModal";
 import RecipeContext from "../../store/recipe-context";
+import Recipe from "../../models/recipe";
 
-const AddRecipe = (props) => {
+const AddRecipe: React.FC = () => {
   const [enteredName, setEnteredname] = useState("");
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [enteredIngredients, setEnteredIngredients] = useState([""]);
 
   const [enteredInstructions, setEnteredInstructions] = useState([""]);
-  const [error, setError] = useState();
+  const [error, setError] = useState<null | { title: string; message: string }>();
 
   const { addRecipe } = useContext(RecipeContext);
 
-  const nameChangeHandler = (event) => {
+  const nameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEnteredname(event.target.value);
   };
 
   // submiting
-  const addRecipeHandler = (event) => {
+  const addRecipeHandler = (event: React.FormEvent) => {
     event.preventDefault();
     if (
       enteredName.length === 0 ||
@@ -36,22 +37,19 @@ const AddRecipe = (props) => {
       });
       return;
     }
-    addRecipe({
-      name: enteredName,
-      ingredients: enteredIngredients.slice(0, -1),
-      instructions: enteredInstructions.slice(0, -1),
-      picture: imagePreviewUrl,
-    });
+
+    const newRecipe = new Recipe(enteredName, enteredIngredients.slice(0, -1), enteredInstructions.slice(0, -1), imagePreviewUrl);
+    addRecipe(newRecipe);
 
     setEnteredname("");
     setEnteredIngredients([""]);
     setEnteredInstructions([""]);
     setImagePreviewUrl(null);
-    event.target.reset();
+    (event.target as HTMLFormElement).reset();
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       if (file.type.startsWith("image/")) {
         setImagePreviewUrl(URL.createObjectURL(file));

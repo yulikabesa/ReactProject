@@ -1,32 +1,43 @@
 import { useReducer } from "react";
+import Recipe from "../models/recipe";
+
+type State = {
+  recipes: Recipe[];
+};
+
+type Action = {
+  type: string;
+  payload?: {id : string} | Recipe | {id: string, edited: Recipe};
+};
 
 const defaultRecipeListState = {
   recipes: [],
 };
 
-const recipeReducer = (state, action) => {
+
+const recipeReducer = (state: State , action: Action) => {
   let recipes;
   switch (action.type) {
     case "ADD":
       recipes = [
         ...state.recipes,
-        { ...action.payload, id: Math.random().toString() },
+        { ...(action.payload as Recipe) },
       ];
       localStorage.setItem("recipes", JSON.stringify(recipes));
       return {
         recipes: recipes,
       };
     case "REMOVE":
-      recipes = state.recipes.filter((recipe) => recipe.id !== action.payload);
+      recipes = state.recipes.filter((recipe) => recipe.id !== action.payload!.id);
       localStorage.setItem("recipes", JSON.stringify(recipes));
       return {
         recipes: recipes,
       };
     case "EDIT":
-      let rec = [];
+      let rec: Recipe[] = [];
       recipes = state.recipes.map((recipe) => {
-        if (recipe.id === action.payload.id) {
-          rec.push(action.payload.edited);
+        if (recipe.id === (action.payload!.id)) {
+          rec.push((action.payload as {id: string, edited: Recipe}).edited);
         } else {
           rec.push(recipe);
         }
@@ -37,10 +48,13 @@ const recipeReducer = (state, action) => {
       };
     case "RELOAD":
       if (localStorage.getItem("recipes") !== null) {
-        recipes = JSON.parse(localStorage.getItem("recipes"));
+        recipes = JSON.parse(localStorage.getItem("recipes")!);
         return {
           recipes: recipes,
         };
+      }
+      else {
+        return defaultRecipeListState;
       }
     default:
       return defaultRecipeListState;
@@ -53,15 +67,15 @@ const useRecipe = () => {
     defaultRecipeListState
   );
 
-  const addRecipeHandler = (recipe) => {
+  const addRecipeHandler = (recipe: Recipe) => {
     dispatchRecipeAction({ type: "ADD", payload: recipe });
   };
 
-  const removeRecipeHandler = (id) => {
-    dispatchRecipeAction({ type: "REMOVE", payload: id });
+  const removeRecipeHandler = (id: string) => {
+    dispatchRecipeAction({ type: "REMOVE", payload: {id : id} });
   };
 
-  const editRecipeHandler = (id, edited) => {
+  const editRecipeHandler = (id: string, edited: Recipe) => {
     dispatchRecipeAction({ type: "EDIT", payload : {id: id, edited: edited} });
   };
 

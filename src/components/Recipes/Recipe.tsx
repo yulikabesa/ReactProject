@@ -5,17 +5,19 @@ import removeIcon from "../../images/removeIcon.png";
 import editIcon from "../../images/editIcon.png";
 import { Fragment, useState } from "react";
 import EditRecipe from "./EditRecipe";
+import RecipeModel from "../../models/recipe";
 
-const Recipe = (props) => {
+const Recipe: React.FC<{recipe: RecipeModel; onRemove: () => void}> = (props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const isEditingHandler = () => {
-    setIsEditing(true);
+    setIsEditing(!isEditing);
   };
+
   return (
     <Fragment>
       {isEditing ? (
-        <EditRecipe recipe={props.recipe} setIsEditing={setIsEditing} />
+        <EditRecipe recipe={props.recipe} setIsEditing={isEditingHandler} />
       ) : (
         <Card className={classes.users}>
           <img

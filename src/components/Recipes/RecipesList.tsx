@@ -3,10 +3,10 @@ import Recipe from "./Recipe";
 import RecipeContext from "../../store/recipe-context";
 import { Fragment, useContext, useEffect } from "react";
 
-const RecipeList = () => {
+const RecipeList: React.FC = () => {
   const {removeRecipe, reload, recipes} = useContext(RecipeContext);
 
-  const onRemoveHandler = (id) => {
+  const onRemoveHandler = (id: string) => {
     removeRecipe(id);
   };
 
